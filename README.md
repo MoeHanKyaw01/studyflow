@@ -1,36 +1,143 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# StudyFlow — Assignment Tracker
 
-## Getting Started
+StudyFlow is a study planner built for DIT312 Assignment 06.
+It helps students organize assignments and track deadlines.
 
-First, run the development server:
+## Features
+
+- Create, edit, and delete assignments
+- Three-column board: To do, In progress, Completed
+- Start, complete, and reopen assignments
+- Search by assignment title or course
+- Filter by course and deadline
+- Overdue indicators and completion progress
+- Persistent MySQL storage
+- Responsive layout
+
+## Technology
+
+- Next.js 16 and React
+- MySQL 8.4 with mysql2
+- Docker and Docker Compose
+- phpMyAdmin
+
+## Requirements
+
+- Git
+- Docker Engine and Docker Compose V2
+- Available ports 8080 and 8081
+
+## Run with Docker Compose
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/MoeHanKyaw01/studyflow.git
+cd studyflow
+```
+
+### 2. Create a .env file
+
+Create `.env` in the project root with these settings:
+
+```env
+MYSQL_ROOT_PASSWORD=REPLACE_WITH_A_STRONG_ROOT_PASSWORD
+MYSQL_DATABASE=6703711_studyflow
+MYSQL_USER=u6703711
+MYSQL_PASSWORD=REPLACE_WITH_A_DIFFERENT_STRONG_PASSWORD
+```
+
+Replace both password placeholders before starting.
+Do not commit `.env` or `.env.local` to GitHub.
+
+Keep the database name consistent with `mysql/init/01-schema.sql`.
+
+### 3. Build and start
+
+```bash
+docker compose up --build
+```
+
+Alternatively, run in the background:
+
+```bash
+docker compose up --build -d
+```
+
+### 4. Open the application
+
+- StudyFlow: http://localhost:8080
+- phpMyAdmin: http://localhost:8081
+
+For phpMyAdmin, log in using `MYSQL_USER` and `MYSQL_PASSWORD`
+from your `.env` file.
+
+When using VirtualBox, forward host port 8080 to guest port 8080
+and host port 8081 to guest port 8081.
+
+## Useful commands
+
+Check container status:
+
+```bash
+docker compose ps
+```
+
+View logs:
+
+```bash
+docker compose logs --tail=100 web mysql
+```
+
+Stop the application:
+
+```bash
+docker compose down
+```
+
+MySQL data is stored in the named `mysql_data` volume.
+Normal container restarts and `docker compose down` preserve it.
+Do not use `docker compose down -v` unless you intend to delete the data.
+
+The SQL initialization script runs only when the database volume
+is first created. It creates the table and sample assignments.
+Existing CAMPP data is not automatically copied into Docker.
+
+## Local development with CAMPP
+
+Install dependencies:
+
+```bash
+npm ci
+```
+
+Create `.env.local`:
+
+```env
+DB_HOST=localhost
+DB_PORT=3307
+DB_USERNAME=root
+DB_PASSWORD="YOUR_CAMPP_PASSWORD"
+DB_DATABASE=6703711_studyflow
+```
+
+Start CAMPP and import `mysql/init/01-schema.sql`
+into its MySQL server once.
+
+Start Next.js:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Security note
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+This is an educational, single-user demo without authentication.
+Run it locally or on a trusted private network.
+Do not expose it publicly without adding access controls.
 
-## Learn More
+## Author
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Moe Han Kyaw
